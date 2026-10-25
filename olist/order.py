@@ -1,3 +1,4 @@
+
 import pandas as pd
 from olist.data import Olist
 
@@ -48,3 +49,27 @@ class Order:
         ]
 
         return orders[columns].copy()
+
+    def get_review_score(self):
+        """
+        Returns a DataFrame containing order review scores
+        and binary indicators for five-star and one-star reviews.
+        """
+        reviews = self.data["order_reviews"].copy()
+
+        reviews["dim_is_five_star"] = (
+            reviews["review_score"] == 5
+        ).astype(int)
+
+        reviews["dim_is_one_star"] = (
+            reviews["review_score"] == 1
+        ).astype(int)
+
+        columns = [
+            "order_id",
+            "dim_is_five_star",
+            "dim_is_one_star",
+            "review_score"
+        ]
+
+        return reviews[columns].copy()
