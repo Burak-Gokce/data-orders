@@ -88,3 +88,18 @@ class Order:
         )
 
         return number_items
+
+    def get_number_sellers(self):
+        """
+        Returns a DataFrame with the number of unique sellers per order.
+        """
+        order_items = self.data["order_items"].copy()
+
+        number_sellers = (
+            order_items
+            .groupby("order_id")["seller_id"]
+            .nunique()
+            .reset_index(name="number_of_sellers")
+        )
+
+        return number_sellers
