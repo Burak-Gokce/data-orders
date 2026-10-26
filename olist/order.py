@@ -103,3 +103,19 @@ class Order:
         )
 
         return number_sellers
+
+    def get_price_and_freight(self):
+        """
+        Returns a DataFrame with the total price
+        and freight value for each order.
+        """
+        order_items = self.data["order_items"].copy()
+
+        price_and_freight = (
+            order_items
+            .groupby("order_id")[["price", "freight_value"]]
+            .sum()
+            .reset_index()
+        )
+
+        return price_and_freight
