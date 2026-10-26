@@ -119,3 +119,25 @@ class Order:
         )
 
         return price_and_freight
+
+    def get_training_data(self):
+        """
+        Returns a DataFrame combining all order features.
+        """
+        wait_time = self.get_wait_time()
+        review_score = self.get_review_score()
+        number_items = self.get_number_items()
+        number_sellers = self.get_number_sellers()
+        price_and_freight = self.get_price_and_freight()
+
+        training_data = (
+            wait_time
+            .merge(review_score, on="order_id", how="inner")
+            .merge(number_items, on="order_id", how="inner")
+            .merge(number_sellers, on="order_id", how="inner")
+            .merge(price_and_freight, on="order_id", how="inner")
+        )
+
+        training_data = training_data.dropna()
+
+        return training_data
